@@ -1,7 +1,7 @@
  #ifndef _CONST_H
 #define _CONST_H
 
-/**************************************************************************** 
+/*******ciao********************************************************************* 
  *
  * This header file contains the global constant & macro definitions.
  *
