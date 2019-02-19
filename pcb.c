@@ -1,4 +1,6 @@
-#include <pcb.h>
+#include "pcb.h"
+
+LIST_HEAD(pcbFree_h);
 
 void initPcbs(void)
 {
