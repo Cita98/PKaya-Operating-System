@@ -38,8 +38,9 @@ pcb_t* allocPcb()
    INIT_LIST_HEAD(&(allocPpcb->p_child));
    INIT_LIST_HEAD(&(allocPpcb->p_sib));
    allocPpcb->p_parent = NULL;
-   allocPpcb->p_s = NULL;
+   allocPpcb->p_s = 0;
    allocPpcb->p_semkey = NULL;
+   allocPpcb->priority = 0;
    /* Ritorno il puntatore al pcb_t */
    return allocPpcb;
 }
