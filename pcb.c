@@ -38,19 +38,8 @@ pcb_t* allocPcb()
    INIT_LIST_HEAD(&(allocPpcb->p_child));
    INIT_LIST_HEAD(&(allocPpcb->p_sib));
    allocPpcb->p_parent = NULL;
-   cleanState(&(allocPpcb->p_s));
-   allocPpcb->priority = DEFAULT_PCB_PRIORITY;
-   allocPpcb->p_semkey = -1; /* non è bloccato su alcun semaforo */
-   /* Inizializzo il custom handler a NULL */
-   int i;
-   for(i=0;i<8;i++)
-   {
-		allocPpcb->custom_handlers[i] = NULL;
-   }
-   /* Inizializzo il tempo CPU a 0 */
-   allocPpcb->time = 0;
-   /* Il processo NON va terminato (ovviamente) */
-   allocPpcb->wanted = 0;
+   allocPpcb->p_s = NULL;
+   allocPpcb->p_semkey = NULL;
    /* Ritorno il puntatore al pcb_t */
    return allocPpcb;
 }
