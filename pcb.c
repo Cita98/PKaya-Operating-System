@@ -1,4 +1,5 @@
 #include "pcb.h"
+#include "fun_utili.h"
 
 LIST_HEAD(pcbFree_h);
 
@@ -38,7 +39,7 @@ pcb_t* allocPcb()
    INIT_LIST_HEAD(&(allocPpcb->p_child));
    INIT_LIST_HEAD(&(allocPpcb->p_sib));
    allocPpcb->p_parent = NULL;
-   allocPpcb->p_s = 0;
+   INIT_STATE(&(allocPpcb->p_s));
    allocPpcb->p_semkey = NULL;
    allocPpcb->priority = 0;
    /* Ritorno il puntatore al pcb_t */
