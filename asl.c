@@ -1,41 +1,42 @@
 #include "asl.h"
+#include "pcb.h"
 
-HIDDEN semd_t semd_table[NUM_SEMAPHORES];
+HIDDEN semd_t semd_table[MAXPROC];
 
 void initASL(){
 	int i;
 	/* fino al numero massimo di processi */
-	for (i=0; i < NUM_SEMAPHORES; i++){
+	for (i=0; i < MAXPROC; i++){
 		/* I device hanno una P sempre bloccante! I processi vengono risvegliati dall'interrupt! */
-		semd_table[i].s_value = 0; //mutex
-		semd_table[i].s_key = i;
+
+		semd_table[i].s_key = &i;
 		mkEmptyProcQ(&(semd_table[i].s_procQ));
 	}	
 }
 
-semd_t* getSemd(int key)
+semd_t* getSemd(int *key)
 {
-	if (key < 0 || key > NUM_SEMAPHORES) return NULL; /* Valore della chiave non valido */
-	return &(semd_table[key]);
+	if (*key < 0 || *key > MAXPROC) return NULL; /* Valore della chiave non valido */
+	return (&(semd_table[*key]));
 }
 
-int insertBlocked(int key, pcb_t *p)
+int insertBlocked(int *key, pcb_t *p)
 {
 	/* Non posso permettere l'inserimento di piu' di MAXPROC semafori */
-	if (key > NUM_SEMAPHORES || key < 0 || p == NULL)
+	if (*key > MAXPROC || *key < 0 || p == NULL)
 		return TRUE;
     p->p_semkey = key;
-	insertProcQ(&(semd_table[key].s_procQ), p);
+	insertProcQ(&(semd_table[*key].s_procQ), p);
     return FALSE;
 } 
 
-pcb_t* removeBlocked(int key)
+pcb_t* removeBlocked(int *key)
 {
 	/* Non posso permettere l'inserimento di piu' di MAXPROC semafori */
-	if (key > NUM_SEMAPHORES || key < 0) 
+	if (*key > MAXPROC || *key < 0) 
 		return NULL;
-	pcb_t* removedPcb = removeProcQ(&(semd_table[key].s_procQ));
-	if (removedPcb != NULL) removedPcb->p_semkey = -1; // reset della semkey
+	pcb_t* removedPcb = removeProcQ(&(semd_table[*key].s_procQ));
+	if (removedPcb != NULL) *(removedPcb->p_semkey) = -1; // reset della semkey
 	return removedPcb;
 }
 
@@ -46,7 +47,7 @@ pcb_t* outBlocked(pcb_t* p)
 	 * coda questo venga prelevato e inserito nella readyQueue dello 
 	 * scheduler! */
     /* estraggo la chiave */
-    int semKey = p->p_semkey;
+    int *semKey = p->p_semkey;
 	/* estraggo il puntatore al semd */
     semd_t* pSem = getSemd(semKey);
     /* Se il semaforo non esiste nella ASL ritorno NULL */
@@ -65,7 +66,6 @@ pcb_t* outBlocked(pcb_t* p)
         if (curPcb == p){
 			/* rimuovo l'elemento */
             list_del(cur);
-            pSem->s_value--;
             /* ne ritorno l'indirizzo */
             return p;
         }
@@ -74,12 +74,12 @@ pcb_t* outBlocked(pcb_t* p)
     return NULL;
 }
 
-pcb_t* headBlocked(int key)
+pcb_t* headBlocked(int *key)
 {
 	/* Non posso permettere l'inserimento di piu' di MAXPROC semafori */
-	if (key > NUM_SEMAPHORES || key < 0) 
+	if (*key > MAXPROC || *key < 0) 
 		return NULL;
-	pcb_t* firstPcb = headProcQ(&(semd_table[key].s_procQ));
+	pcb_t* firstPcb = headProcQ(&(semd_table[*key].s_procQ));
 	return firstPcb;
 } 
 
@@ -98,8 +98,7 @@ void outChildBlocked(pcb_t* p)
 		}
 	}
 	/* Infine rimuovo il processo originario */
-	if(outBlocked(p) == NULL) p->wanted = TRUE;
-	
+	p = outBlocked(p);	
 }
 
 
