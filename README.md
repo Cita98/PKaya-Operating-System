@@ -6,14 +6,17 @@ Gestione delle code: Livello 2
 
 Setup 
 
-1- Installa uMPS (https://github.com/tjonjic/umps)
-2- Carica il File kernel 
+- Installa uMPS (https://github.com/tjonjic/umps)
+
+- Carica il File kernel 
 	- "open an existing machine configuration"
 	- Seleziona il file Phase1UMPS
-3- Avvia la macchina
+
+- Avvia la macchina
 	- Seleziona scheda "machine"
 	- Power on 
-4- Aprire il terminale 
+
+- Aprire il terminale 
 	- Seleziona scheda "windows"
 	- Terminal 0
 
