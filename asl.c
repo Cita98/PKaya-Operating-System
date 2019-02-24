@@ -14,9 +14,7 @@ semd_t* getSemd(int *key)
  	
 	if(!list_empty(&semd_h)) /*Se la ASL non è vuota */
 	{ list_for_each_entry(Iter_Semd, &semd_h, s_next) /* Scorro la lista ASL */
-		{ if(Iter_Semd->s_key == key){ return Iter_Semd;}
-		  if(list_is_last(&(Iter_Semd->s_next))){break;}
-		} /* Se il semd corrente contiene la key cercata ritorno il suo puntatore */
+	  { if(Iter_Semd->s_key == key){ return Iter_Semd;}} /* Se il semd corrente contiene la key cercata ritorno il suo puntatore */
 	}
 	return NULL; /* Altrimenti, se la lista è vuota oppure se non trovo il semd con la key cercata, ritorno NULL */
 }
@@ -24,41 +22,42 @@ semd_t* getSemd(int *key)
 
 /* -------------------- FUNZIONE 15 -------------------- */
 
-int insertBlocked(int *key, pcb_t *p)
-{	
-	semd_t* Semd_key = getSemd(key); /* Ottengo il puntatore al semd avente la key cercata se questo è presente nella ASL */
-	if(Semd_key == NULL) /*Se il semd cercato non è presente nella ASL */
-	{ 
-		if(list_empty(&semdFree_h)) /* Se la lista dei semd liberi è vuota */
-		{   
-			return TRUE;
-		}
-		else
-		{
-			/* Prendo il primo elemento della lista semdFree e lo assegno a Semd_key*/
-			struct list_head* Semd_Free = list_next(&semdFree_h);
-			/* Elimino il semaforo dalla lista di quelli liberi */
-			list_del(Semd_Free);
-			/* Aggiungo il semaforo alla coda dei semd attivi (ASL) */
-			list_add_tail(Semd_Free, &semd_h);
-			Semd_key = container_of(Semd_Free, semd_t, s_next);
-			/*Aggiungo p alla coda dei processi bloccati associati a Semd_key */
-			/*Setto i campi di Semd_key e di p in maniera opportuna*/
-			Semd_key->s_key = key; /* Settaggio campo key del semd */
-			p->p_semkey =  /* Settaggio del campo key di p */
-			insertProcQ(&(Semd_key->s_procQ), p); /*Aggiunta di p alla coda dei processi bloccati al semd Semd_key */
+int insertBlocked(int *key, pcb_t* p) {
+	semd_t *s = getSemd(key);
+
+	if (s != NULL) {
+		insertProcQ(&s->s_procQ, p);
+		p->p_semkey = key;
+		return FALSE;
+	}
+
+	if (list_empty(&semdFree_h)) {
+		return TRUE;
+	}
+	
+	s = container_of(semdFree_h.next, semd_t, s_next);
+	list_del(semdFree_h.next);
+
+	INIT_LIST_HEAD(&s->s_next);
+	INIT_LIST_HEAD(&s->s_procQ);
+	s->s_key = key;
+
+	insertProcQ(&s->s_procQ, p);
+
+	semd_t *list_s;
+	list_for_each_entry(list_s, &semd_h, s_next) {
+		if (s->s_key > list_s->s_key) {
+			list_add(&s->s_next, &list_s->s_next);
+			p->p_semkey = key;
 			return FALSE;
 		}
 	}
-	else  /* Se il semaforo è presente nella lista dei semafori attivi */
-	{    
-		/*Aggiungo p alla coda dei processi bloccati associati a Semd_key */
-		/*Setto i campi di Semd_key e di p in maniera opportuna*/
-		p->p_semkey = Semd_key->s_key;
-		insertProcQ(&(Semd_key->s_procQ), p); 
-		return FALSE;
-	}
-} 
+
+	list_add(&s->s_next, &semd_h);
+	p->p_semkey = key;
+	return FALSE;
+}
+
 
 /* -------------------- FUNZIONE 16 -------------------- */
 
@@ -163,7 +162,7 @@ void initASL(){
 	for (i=0; i < MAXPROC; i++)
 	{	/* Inizializzo i campi della semd_table */
 		semd_t* newSemdEl = &semd_table[i];
-		mkEmptyProcQ(&(newSemdEl->s_procQ));
+		/*mkEmptyProcQ(&(newSemdEl->s_procQ));*/
 		/* Aggiungo ogni descrittore della semd_table alla semdFree */
 		list_add_tail(&(newSemdEl->s_next), &(semdFree_h));
 	}	

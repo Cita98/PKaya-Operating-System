@@ -14,7 +14,7 @@ static inline void INIT_STATE(state_t* state)
     state->pc_epc = 0;
     /* scorro tutti i registri */
     for (i = 0; i<29; i++)
-        state->gpr[i] = 0;
+    state->gpr[i] = 0;
     state->hi = 0;
 	state->lo = 0;
 }
@@ -33,7 +33,7 @@ void initPcbs(void)
     {
 	/* Creo un nuovo puntatore all'elemento i del vettore dei Pcb */
         pcb_t* newPcbEl = &pcbFree_table[i];
-        /* Aggiungo l'elemento alla lista pcbFree concatenando il puntatore al list_head dell'elemento e la sentinella della lista (pcbFree_h) */
+    /* Aggiungo l'elemento alla lista pcbFree concatenando il puntatore al list_head dell'elemento e la sentinella della lista (pcbFree_h) */
 	list_add(&(newPcbEl->p_next), &(pcbFree_h)); /* Aggiunge l'elemento in testa che rimane puntato da pcbFree_h che è la sentinella della lista*/
 	}
 }
@@ -98,14 +98,6 @@ void insertProcQ(struct list_head* head, pcb_t* p)
 {
 	pcb_t *iterator; /* Variabile di tipo puntatore all'elemento pcb_t, consente di scorrere la lista */
 /* Controllo se la lista puntata dalla sentinella head è vuota */
-  if(emptyProcQ(head)) /* Se è vuota */
-  {
-	/* Aggiungo l'elemento p in testa alla lista, dopo la sentinella */
-	list_add(&(p->p_next), head);
-	return;
-  }
-    else /*Altrimenti*/
-   {
 
 	/* Scorro la lista dei processi puntata da head */
 	list_for_each_entry(iterator, head, p_next){
@@ -113,15 +105,15 @@ void insertProcQ(struct list_head* head, pcb_t* p)
 	/* Se l'elemento puntato da p ha priorità maggiore rispetto a quello puntato dall'iteratore */
 		if (p->priority > iterator->priority){
 	/* Allora aggiungo p in coda a tale elemento, il campo prev di p punterà all'iteratore, il campo next di p punterà all'elemento successivo all'iteratore, il quale campo next punterà a sua volta p */
-			list_add_tail(&(p->p_next), &(iterator->p_next));
+			list_add(&(p->p_next), iterator->p_next.prev);
 			return;
 		}
 	}
 	/* Se la priorità di p non è maggiore di nessun elemento nella lista allora andrà aggiunto per ultimo, in coda alla lista */
 	list_add_tail(&(p->p_next), head);
 	return;
-   }
 }
+
 
 
 /* -------------------- FUNZIONE 7 -------------------- */
