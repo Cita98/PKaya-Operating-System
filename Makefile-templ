@@ -35,7 +35,7 @@ all : kernel.core.umps
 kernel.core.umps : kernel
 	umps2-elf2umps -k $<
 
-kernel : p1test_rikaya_v0.o pcb.o asl.o fun_utili.o
+kernel : p1test_rikaya_v0.o pcb.o asl.o
 	$(LD) -o $@ $^ $(LDFLAGS)
 
 clean :

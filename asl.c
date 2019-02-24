@@ -22,41 +22,37 @@ semd_t* getSemd(int *key)
 
 /* -------------------- FUNZIONE 15 -------------------- */
 
-int insertBlocked(int *key, pcb_t* p) {
-	semd_t *s = getSemd(key);
-
-	if (s != NULL) {
-		insertProcQ(&s->s_procQ, p);
-		p->p_semkey = key;
+int insertBlocked(int *key, pcb_t *p)
+{	
+	semd_t* Semd_key = getSemd(key); /* Ottengo il puntatore al semd avente la key cercata se questo è presente nella ASL */
+	if(Semd_key == NULL) /*Se il semd cercato non è presente nella ASL */
+	{ 
+		if(list_empty(&semdFree_h)){return TRUE;} /* Se la lista dei semd liberi è vuota ritorno TRUE */
+		
+		/*Altrimenti, se c'è almeno un semaforo libero */
+		/* Prendo il primo elemento della lista semdFree e lo assegno a Semd_key*/
+			Semd_key = container_of(semdFree_h.next, semd_t, s_next);
+		/* Elimino il semaforo dalla lista di quelli liberi */
+			list_del(semdFree_h.next);
+		/* Re-inizializzo i campi del semaforo */
+			INIT_LIST_HEAD(&Semd_key->s_next);
+			INIT_LIST_HEAD(&Semd_key->s_procQ);
+			Semd_key->s_key = key; /* Assegno al semaforo la key */
+		/*Aggiungo p alla coda dei processi bloccati associati a Semd_key */
+			insertProcQ(&Semd_key->s_procQ, p);
+	    /*Aggiungo Semd_key in testa alla ASL */
+			list_add(&Semd_key->s_next, &semd_h);
+			p->p_semkey = key; /* Nel processo imposto la key del semaforo a cui andrà in coda */
+			return FALSE;
+	}
+	else  /* Se il semaforo è presente nella lista dei semafori attivi */
+	{    
+		/*Setto i campi di Semd_key e di p in maniera opportuna*/
+		p->p_semkey = key; /* Nel processo imposto la key del semaforo a cui andrà in coda */
+		insertProcQ(&(Semd_key->s_procQ), p); /*Aggiungo p alla coda dei processi bloccati associati a Semd_key */
 		return FALSE;
 	}
-
-	if (list_empty(&semdFree_h)) {
-		return TRUE;
-	}
-	
-	s = container_of(semdFree_h.next, semd_t, s_next);
-	list_del(semdFree_h.next);
-
-	INIT_LIST_HEAD(&s->s_next);
-	INIT_LIST_HEAD(&s->s_procQ);
-	s->s_key = key;
-
-	insertProcQ(&s->s_procQ, p);
-
-	semd_t *list_s;
-	list_for_each_entry(list_s, &semd_h, s_next) {
-		if (s->s_key > list_s->s_key) {
-			list_add(&s->s_next, &list_s->s_next);
-			p->p_semkey = key;
-			return FALSE;
-		}
-	}
-
-	list_add(&s->s_next, &semd_h);
-	p->p_semkey = key;
-	return FALSE;
-}
+} 
 
 
 /* -------------------- FUNZIONE 16 -------------------- */
