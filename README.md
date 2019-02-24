@@ -5,6 +5,7 @@ Laboratorio di Sistemi Operativi
 Gestione delle code: Livello 2
 
 Setup 
+
 1- Installa uMPS (https://github.com/tjonjic/umps)
 2- Carica il File kernel 
 	- "open an existing machine configuration"
