@@ -27,20 +27,20 @@ int insertBlocked(int *key, pcb_t *p)
 	semd_t* Semd_key = getSemd(key); /* Ottengo il puntatore al semd avente la key cercata se questo è presente nella ASL */
 	if(Semd_key == NULL) /*Se il semd cercato non è presente nella ASL */
 	{ 
-		if(list_empty(&semdFree_h)){return TRUE;} /* Se la lista dei semd liberi è vuota ritorno TRUE */
+		if(list_empty(&semdFree_h)){return TRUE;} /* Controllo se la lista dei semd liberi è vuota, se lo è ritorno TRUE */
 		
 		/*Altrimenti, se c'è almeno un semaforo libero */
 		/* Prendo il primo elemento della lista semdFree e lo assegno a Semd_key*/
 			Semd_key = container_of(semdFree_h.next, semd_t, s_next);
 		/* Elimino il semaforo dalla lista di quelli liberi */
 			list_del(semdFree_h.next);
-		/* Re-inizializzo i campi del semaforo */
-			INIT_LIST_HEAD(&Semd_key->s_next);
-			INIT_LIST_HEAD(&Semd_key->s_procQ);
+		/* Inizializzo i campi del semaforo */
+			INIT_LIST_HEAD(&Semd_key->s_next); /* Lista dei semafori concatenati ad esso impostata vuota */
+			INIT_LIST_HEAD(&Semd_key->s_procQ); /* Lista dei processi bloccati al semaforo impostata vuota */
 			Semd_key->s_key = key; /* Assegno al semaforo la key */
 		/*Aggiungo p alla coda dei processi bloccati associati a Semd_key */
 			insertProcQ(&Semd_key->s_procQ, p);
-	    /*Aggiungo Semd_key in testa alla ASL */
+	        /*Aggiungo Semd_key in testa alla ASL */
 			list_add(&Semd_key->s_next, &semd_h);
 			p->p_semkey = key; /* Nel processo imposto la key del semaforo a cui andrà in coda */
 			return FALSE;
@@ -91,7 +91,7 @@ pcb_t* outBlocked(pcb_t* p)
           else
 	  {
 		/* Dobbiamo verificare che p sia presente nella coda di pSem */
-    		/* Inizializzo l'elemento corrente per il ciclo for */
+    		/* Inizializzo l'elemento corrente usato come iteratore per il ciclo for */
 		struct list_head* cur;
     		list_for_each(cur, &(pSem->s_procQ)){
 		/* Estraggo l'indirizzo del contenitore dell'elemento corrente */	
@@ -158,7 +158,6 @@ void initASL(){
 	for (i=0; i < MAXPROC; i++)
 	{	/* Inizializzo i campi della semd_table */
 		semd_t* newSemdEl = &semd_table[i];
-		/*mkEmptyProcQ(&(newSemdEl->s_procQ));*/
 		/* Aggiungo ogni descrittore della semd_table alla semdFree */
 		list_add_tail(&(newSemdEl->s_next), &(semdFree_h));
 	}	
