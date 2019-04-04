@@ -1,7 +1,7 @@
 #include "const.h"
 #include "listx.h"
-#include <umps/libumps.h>
-#include <umps/arch.h>
+#include "libumps.h"
+#include "arch.h"
 
 #include "pcb.h"
 
