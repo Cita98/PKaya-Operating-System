@@ -29,4 +29,9 @@ int main(){
 /* chiamo la funzione initPcbs()*/
 initPcbs();
 
+
+/*creo la ready queue*/
+
+LIST_HEAD(ready_queue);
+
 }
