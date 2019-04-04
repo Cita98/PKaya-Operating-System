@@ -39,5 +39,8 @@
 #define SYSBK_NEWAREA 0x200003d4
 #define SYSBK_OLDAREA 0x20000348
 
+/*definisco costante per  exeption status: interrupt mascherati
+VM off ,  PLT  ON e kernel mode*/
 
+#define EXCEPTION_STATUS 0x18000000
 #endif
