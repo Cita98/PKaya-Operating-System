@@ -7,7 +7,8 @@
 typedef unsigned int memaddr;
 
 // Process Control Block (PCB) data structure
-typedef struct pcb_t {
+typedef struct pcb_t {	
+
 	/*process queue fields */
 	struct list_head	p_next;
 
@@ -21,6 +22,9 @@ typedef struct pcb_t {
 
 	/* process priority */
 	int			priority;
+
+	/* process original prioriry*/
+	int 			original_prioriry;
 
 	/* key of the semaphore on which the process is eventually blocked */
 	int			*p_semkey;
