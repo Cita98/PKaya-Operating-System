@@ -26,3 +26,4 @@ Componenti gruppo
 - Accorsi Martina 
 - Bretta Luca
 - Vicenzi Andrea
+- Diachuk Andrii
