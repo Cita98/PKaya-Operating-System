@@ -9,3 +9,7 @@ Matricola: 0000830704
 Andrea Vicenzi
 Email: andrea.vicenzi5@studio.unibo.it
 Matricola: 0000843455
+
+Andrii Diachuk
+Email: andrii.diachuk@studio.unibo.it
+Matricola: 0000830267
