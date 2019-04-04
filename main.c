@@ -6,6 +6,7 @@
 int main(){
 
 /*inizializzo le new area*/
+
 /***************************** INIT CPU0 */
     ((state_t *)INT_NEWAREA)->pc_epc = ((state_t *)INT_NEWAREA)->reg_t9 = (memaddr)int_handler;
     ((state_t *)INT_NEWAREA)->reg_sp = RAMTOP;
