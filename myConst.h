@@ -16,7 +16,7 @@
 /*definisco costante per  exeption status: interrupt mascherati
 VM off ,  PLT  ON e kernel mode*/
 
-#define EXCEPTION_STATUS 0x18000000
+#define EXCEPTION_STATUS 0x18000000 //valore 1
 
 
 #endif MYCONST_H
