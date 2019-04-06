@@ -4,6 +4,7 @@
 #include "types.h"
 #include "p1.5test_rikaya.c"
 #include "myConst.h"
+#include "handler.h"
 
 int main(){
 
