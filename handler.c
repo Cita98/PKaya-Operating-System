@@ -6,16 +6,7 @@ void int_handler(){
 }
 
 
-
-void pgmtrap_handler(){
-
-}
-
-void tlb_handler(){
-
-}
-
-void sysbk_handler(){
+void syscall_handler(){
 
 }
 

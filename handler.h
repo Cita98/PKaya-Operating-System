@@ -11,11 +11,7 @@
 #include "asl.h"
 #include "libumps.h" //per funzione getPRID
 
-void sysbk_handler();
-
-void pgmtrap_handler();
-
-void tlb_handler();
+void syscall_handler();
 
 void int_handler();
 
