@@ -56,7 +56,7 @@ LDST(p1->p_s); // non so se serve mettere & prima e non capisco perché il tipo 
 p1->p_s.pc_epc = (memaddr)test1;
 p1->p_s.reg_sp = RAMTOP-FRAMZESIZE*1;
 p1->p_s.status = STATOPROC; 
-p2->priority=1;
+p1->priority=1;
 //aggiunto il processo nella lista ready
 insertProcQ(ready_queue, p1) // forse da aggiustare la sintassi
 
@@ -76,7 +76,7 @@ LDST(p3->p_s); // non so se serve mettere & prima e non capisco perché il tipo 
 p3->p_s.pc_epc = (memaddr)test1;
 p3->p_s.reg_sp = RAMTOP-FRAMESIZE*3; 
 p3->p_s.status = STATOPROC; 
-p2->priority=3;
+p3->priority=3;
 //aggiunto il processo nella lista ready
 insertProcQ(ready_queue, p3) // forse da aggiustare la sintassi
 
