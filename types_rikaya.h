@@ -28,6 +28,8 @@ typedef struct pcb_t {
 
 	/* key of the semaphore on which the process is eventually blocked */
 	int			*p_semkey;
+	/* setto il timeslice per ogni processo*/
+	int 		TIME_SLICE=3; //unità di misura??
 
 } pcb_t;
 

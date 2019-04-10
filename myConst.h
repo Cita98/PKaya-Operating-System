@@ -16,10 +16,10 @@
 /*definisco costante per  exeption status: interrupt mascherati
 VM off ,  PLT  ON e kernel mode*/
 
-#define EXCEPTION_STATUS 11000000000000000000000000000
+#define EXCEPTION_STATUS 00011000000000000000000000000001
 
 /*definisco costanti per stato dei processi*/
-#define STATOPROC 11000000000001111111100000100
+#define STATOPROC 00011000000000001111111100000100
 
 #define FRAMESIZE 4096
 

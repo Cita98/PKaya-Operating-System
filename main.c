@@ -17,7 +17,6 @@ int main(){
 
 /*inizializzo le new area*/
 
-/***************************** INIT CPU0 */
     ((state_t *)INT_NEWAREA)->pc_epc = (memaddr)int_handler;
     ((state_t *)INT_NEWAREA)->reg_sp = RAMTOP;
     ((state_t *)INT_NEWAREA)->status = EXCEPTION_STATUS;
