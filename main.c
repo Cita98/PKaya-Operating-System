@@ -62,7 +62,7 @@ insertProcQ(ready_queue, p1) // forse da aggiustare la sintassi
 /*processo2*/
 pcb_t* p2=allocPcb();
 LDST(p2->p_s); // non so se serve mettere & prima e non capisco perché il tipo lo mette prima se dopo cambia stato
-p2->p_s.pc_epc = (memaddr)test1;
+p2->p_s.pc_epc = (memaddr)test2;
 p2->p_s.reg_sp = RAMTOP-FRAMESIZE*2;  
 p2->p_s.status = STATOPROC; 
 p2->priority=2;
@@ -72,7 +72,7 @@ insertProcQ(ready_queue, p2) // forse da aggiustare la sintassi
 /*processo3*/
 pcb_t* p3=allocPcb();
 LDST(p3->p_s); // non so se serve mettere & prima e non capisco perché il tipo lo mette prima se dopo cambia stato
-p3->p_s.pc_epc = (memaddr)test1;
+p3->p_s.pc_epc = (memaddr)test3;
 p3->p_s.reg_sp = RAMTOP-FRAMESIZE*3; 
 p3->p_s.status = STATOPROC; 
 p3->priority=3;
