@@ -23,5 +23,7 @@ VM off ,  PLT  ON e kernel mode*/
 
 #define FRAMESIZE 4096
 
+#define TIME_SLICE 3
+
 
 #endif MYCONST_H

@@ -1,8 +1,9 @@
 #ifndef _TYPES11_H
 #define _TYPES11_H
-
 #include "types.h"
 #include "listx.h"
+
+
 
 typedef unsigned int memaddr;
 
@@ -24,12 +25,11 @@ typedef struct pcb_t {
 	int			priority;
 
 	/* process original prioriry*/
-	int 			original_prioriry;
+	int 		original_prioriry;
 
 	/* key of the semaphore on which the process is eventually blocked */
 	int			*p_semkey;
 	/* setto il timeslice per ogni processo*/
-	int 		TIME_SLICE=3; //unità di misura??
 
 } pcb_t;
 
