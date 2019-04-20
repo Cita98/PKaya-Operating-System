@@ -25,7 +25,7 @@ typedef struct pcb_t {
 	int			priority;
 
 	/* process original prioriry*/
-	int 		original_prioriry;
+	int 		original_priority;
 
 	/* key of the semaphore on which the process is eventually blocked */
 	int			*p_semkey;
