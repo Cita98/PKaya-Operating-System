@@ -51,7 +51,7 @@ LIST_HEAD(ready_queue);
 
 /*processo1*/
 pcb_t* p1=allocPcb();
-LDST(&(p1->p_s)); // non so se serve mettere & prima e non capisco perché il tipo lo mette prima se dopo cambia stato
+LDST(&(p1->p_s)); // IO NON CREDO SERVA LDST NELLA FASE DI INIZIALIZZAZIONE non so se serve mettere & prima e non capisco perché il tipo lo mette prima se dopo cambia stato
 p1->p_s.pc_epc = (memaddr)test1;
 p1->p_s.reg_sp = RAMTOP-FRAMZESIZE*1;
 p1->p_s.status = STATOPROC; 
@@ -79,6 +79,6 @@ p3->priority=3;
 //aggiunto il processo nella lista ready
 insertProcQ(ready_queue, p3) // forse da aggiustare la sintassi
 
-LDST
+
 
 }
