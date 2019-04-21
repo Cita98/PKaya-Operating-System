@@ -25,5 +25,7 @@ VM off ,  PLT  ON e kernel mode*/
 
 #define TIME_SLICE 3000
 
+#define SYS3 3
+
 
 #endif MYCONST_H
