@@ -1,7 +1,7 @@
 #include "syscall.h"
 
 extern pcb_t* current_proc;
-extern pcb_t ready_queue;  //non sicuro
+
 
 void syscall_handler()
 {
@@ -13,8 +13,8 @@ void syscall_handler()
 	old->pc_epc+=4;
 
 	if(old->reg_a0==SYS3){
-		terminateProcess();
-		scheduler(&(ready_queue.p_next));
+		terminateProcess(current_proc); 
+		scheduler(ready_queue); //non so come importare la ready queue, così non la riconosce
 	}else{
 		adderrbuf("error");
 	}

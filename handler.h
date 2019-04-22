@@ -1,19 +1,11 @@
 #ifndef __HANDLERS
 #define __HANDLERS
 
-//alcuni header da creare
+#include "p1.5test_rikaya.c"
 
-#include "scheduler.h"
-#include "utils.h"
-#include "kernelVariables.h"
-#include "syscall.h"
-#include "interrupt.h"
-#include "asl.h"
-#include "libumps.h" //per funzione getPRID
+void tlb_handler();
 
-void syscall_handler();
-
-void int_handler();
+void trap_handler();
 
 
 #endif
