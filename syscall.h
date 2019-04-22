@@ -3,6 +3,7 @@
 #include "types.h"
 #include "scheduler.h"
 #include "p1.5test_rikaya_v0.c"
+#include "init.h"
 
 void syscall_handler();
 void terminateProcess(struct list_head* head_rd);

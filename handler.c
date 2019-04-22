@@ -1,12 +1,12 @@
 #include "handler.h"
 
 
-void int_handler(){
-
+void tlb_handler(){
+adderrbuf("tlb handler");
 }
 
 
-void syscall_handler(){
-
+void trap_handler(){
+adderrbuf("trap handler");
 }
 
