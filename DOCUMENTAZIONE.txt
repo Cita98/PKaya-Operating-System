@@ -105,3 +105,5 @@ Inoltre, elimina tutti i processi dell’albero radicato in p (ossia tutti i pro
 Inizializza la lista dei semdFree in modo da contenere tutti gli elementi della semdTable. Questo metodo viene invocato una volta sola durante l’inizializzazione della struttura dati.
 
 
+------------------------- DOCUMENTAZIONE PHASE1.5 -------------------------
+

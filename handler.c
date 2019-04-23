@@ -14,9 +14,8 @@ void int_handler(){
 	
 	switch(int_line)
 	{
-			case(9):
+			case(INT_LOCALTIMER):
 			/* Ack dell'interrupt, riavvio il timer */
-			addokbuf("INTERRUPT PRESO");
 			setTIMER(TIME_SLICE);
 			/* Richiamo lo scheduler per far partire il prossimo processo */
 			context_switch();
@@ -41,16 +40,13 @@ void syscall_handler()
 	{
 			case(SYS3):
 			/* Termino il processo corrente e tutta la sua progenie */
-			addokbuf("SYSTEM CALL PRESA");
+			//addokbuf("SYSTEM CALL PRESA");
 			terminate_process(current_proc);
 			/* Richiamo lo scheduler per passare al prossimo processo */
 			scheduler();
 			
-			default:
+			default: /* In tutti gli altri casi errore */
 			addokbuf(" SYSTEMCALL ERROR ");
-			//terminate_process(current_proc);
-			/* Richiamo lo scheduler per passare al prossimo processo */
-			//Scheduler();
 			break;
 	}
 

@@ -17,14 +17,6 @@
 #define SYSCALL_NEWAREA 0x200003d4
 #define SYSCALL_OLDAREA 0x20000348
 
-/*definisco costante per  exeption status: interrupt mascherati
-VM off ,  PLT  ON e kernel mode*/
-
-#define EXCEPTION_STATUS 0x18000000
-
-/*definisco costanti per stato dei processi*/
-#define STATOPROC 0x1800FF04
-
 #define FRAMESIZE 4096
 
 #define TIME_SLICE 3000

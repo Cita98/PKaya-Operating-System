@@ -9,20 +9,18 @@ void scheduler()
 	/* Prendo il processo con priorità maggiore */
 	current_proc = removeProcQ(head_rd);
 	log_process_order(current_proc->original_priority);
-	/* Controllo se la lista è vuota, nel caso metto in attesa */
+	/* Controllo se la lista dei processi pronti è vuota,se non lo è */
 	if (current_proc != NULL){
 	/* Riporto la priorità del processo a quella originaria */
 	current_proc->priority = current_proc->original_priority;
 	/* Aumento la priorità di tutti gli altri processi che restano in coda */
 	aging();
-	/* Reimposto il timer */
+	/* Imposto il local timer */
 	setTIMER(TIME_SLICE);
-	/* Imposto lo stato del processore */
-	setSTATUS(getSTATUS()|1);
 	/* Carico lo stato del processo all'interno del processore */
 	LDST(&(current_proc->p_s));
 	}
-	else{HALT();}
+	else{HALT();} // Se la ready_queue è vuota metto il sistema in attesa
 }
 
 void context_switch()

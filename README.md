@@ -1,8 +1,8 @@
 Laboratorio di Sistemi Operativi 
 
-	PHASE 1
+	PHASE 1.5
 
-Gestione delle code: Livello 2
+Kernel del sistema operativo: Livello 3
 
 Setup 
 
@@ -12,6 +12,8 @@ Setup
 - Lancia il comando make -f Makefile_templ
 
 - Lancia umps2 e setta il kernel.core
+
+- Ricorda di togliere le spunte in basso per Breakpoints ed Exceptions
 
 - Avvia la macchina
 	- Seleziona scheda "machine"

@@ -7,9 +7,9 @@
 #include "myConst.h"
 #include "utilis.h"
 
-void int_handler();
+void int_handler(); // Handler per gli interrupt
 
-void syscall_handler();
+void syscall_handler(); // Handler per le systemcall
 
 
 #endif

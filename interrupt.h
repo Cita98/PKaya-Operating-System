@@ -5,9 +5,8 @@
 
 /* Costanti per le linee di interrupt */
 
-#define INT_LOCALTIMER 2
+#define INT_LOCALTIMER 0
 
-int getBit(int shift, unsigned int reg);
-int getINT_LINE();
+int getINT_LINE(); /* Funzione per riconoscere la linea che ha generato l'interrupt */
 
 #endif
