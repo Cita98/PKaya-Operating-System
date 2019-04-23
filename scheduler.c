@@ -16,7 +16,9 @@ void scheduler()
 	/* Aumento la priorità di tutti gli altri processi che restano in coda */
 	aging();
 	/* Reimposto il timer */
-	//setTIMER(TIME_SLICE);
+	setTIMER(TIME_SLICE);
+	/* Imposto lo stato del processore */
+	setSTATUS(getSTATUS()|1);
 	/* Carico lo stato del processo all'interno del processore */
 	LDST(&(current_proc->p_s));
 	}

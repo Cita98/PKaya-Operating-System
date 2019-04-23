@@ -48,6 +48,9 @@ void syscall_handler()
 			
 			default:
 			addokbuf(" SYSTEMCALL ERROR ");
+			//terminate_process(current_proc);
+			/* Richiamo lo scheduler per passare al prossimo processo */
+			//Scheduler();
 			break;
 	}
 

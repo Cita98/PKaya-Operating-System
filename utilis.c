@@ -14,15 +14,15 @@ void init(){
 
     /*inizializzo le new area*/
 
-        ((state_t *)INT_NEWAREA)->pc_epc = (memaddr)int_handler;
+        ((state_t *)INT_NEWAREA)->pc_epc = ((state_t *)INT_NEWAREA)->reg_t9 = (memaddr)int_handler;
         ((state_t *)INT_NEWAREA)->reg_sp = RAMTOP;
-        ((state_t *)INT_NEWAREA)->status = EXCEPTION_STATUS;
+        ((state_t *)INT_NEWAREA)->status &= (~STATUS_IEc & ~STATUS_KUc & ~STATUS_VMc);
+		((state_t *)INT_NEWAREA)->status |= STATUS_TE;
 
         ((state_t *)SYSCALL_NEWAREA)->pc_epc = (memaddr)syscall_handler;
         ((state_t *)SYSCALL_NEWAREA)->reg_sp = RAMTOP;
-        ((state_t *)SYSCALL_NEWAREA)->status= EXCEPTION_STATUS;
-
-
+        ((state_t *)SYSCALL_NEWAREA)->status &= (~STATUS_IEc & ~STATUS_KUc & ~STATUS_VMc); /* Interrupt disabilitati, Kernel mode ON , Virtual memory OFF */
+		((state_t *)SYSCALL_NEWAREA)->status |= STATUS_TE; /* Local timer abilitato */
 		
         // questo non lo chiede ma dobbiamo comunque inizializzare nella prossima fase
 
@@ -46,20 +46,21 @@ void init(){
 
     /*processo1*/
     pcb_t* p1=allocPcb();
-    p1->p_s.pc_epc = (memaddr)test1;
+    p1->p_s.pc_epc = p1->p_s.reg_t9 = (memaddr)test1;
     p1->p_s.reg_sp = RAMTOP-FRAMESIZE*1;
-	
-	p1->p_s.status = STATOPROC;
+	p1->p_s.status |= (STATUS_IEc | STATUS_TE); // Interrupt abilitati, Timer abilitato
+	p1->p_s.status &= (~STATUS_KUc & ~STATUS_VMc); // Kernel Mode ON, Virtual memory OFF 
     p1->priority=1;
-	//p1->original_priority = 1;
+	p1->original_priority = 1;
     //aggiunto il processo nella lista ready
     insertProcQ(&(ready_queue), p1); // forse da aggiustare la sintassi
 
     /*processo2*/
     pcb_t* p2=allocPcb();
-    p2->p_s.pc_epc = (memaddr)test2;
+    p2->p_s.pc_epc = p2->p_s.reg_t9 = (memaddr)test2;
     p2->p_s.reg_sp = RAMTOP-FRAMESIZE*2;  
-    p2->p_s.status = STATOPROC; 
+	p2->p_s.status |= (STATUS_IEc | STATUS_TE); // Interrupt abilitati, Timer abilitato
+	p2->p_s.status &= (~STATUS_KUc & ~STATUS_VMc); // Kernel Mode ON, Virtual memory OFF
     p2->priority=2;
 	p2->original_priority = 2;
     //aggiunto il processo nella lista ready
@@ -67,9 +68,10 @@ void init(){
 
     /*processo3*/
     pcb_t* p3=allocPcb();
-    p3->p_s.pc_epc = (memaddr)test3;
+    p3->p_s.pc_epc = p3->p_s.reg_t9 = (memaddr)test3;
     p3->p_s.reg_sp = RAMTOP-FRAMESIZE*3; 
-    p3->p_s.status = STATOPROC; 
+    p3->p_s.status |= (STATUS_IEc | STATUS_TE); // Interrupt abilitati, Timer abilitato
+	p3->p_s.status &= (~STATUS_KUc & ~STATUS_VMc); // Kernel Mode ON, Virtual memory OFF
     p3->priority=3;
 	p3->original_priority = 3;
     //aggiunto il processo nella lista ready
