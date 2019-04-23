@@ -1,11 +1,15 @@
-#ifndef __HANDLERS
-#define __HANDLERS
+#ifndef HANDLER_H
+#define HANDLER_H
 
-#include "p1.5test_rikaya.c"
+#include "interrupt.h"
+#include "syscall.h"
+#include "scheduler.h"
+#include "myConst.h"
+#include "utilis.h"
 
-void tlb_handler();
+void int_handler();
 
-void trap_handler();
+void syscall_handler();
 
 
 #endif

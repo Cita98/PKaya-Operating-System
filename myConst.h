@@ -1,6 +1,10 @@
-
 #ifndef MYCONST_H
 #define MYCONST_H
+
+/* Costanti */
+#define RAMBASE *((unsigned int *)0x10000000)
+#define RAMSIZE *((unsigned int *)0x10000004)
+#define RAMTOP (RAMBASE + RAMSIZE)
 
 /* definisco gli indirizzi delle new e old area */
 
@@ -16,16 +20,14 @@
 /*definisco costante per  exeption status: interrupt mascherati
 VM off ,  PLT  ON e kernel mode*/
 
-#define EXCEPTION_STATUS 00011000000000000000000000000001
+#define EXCEPTION_STATUS 0x18000000
 
 /*definisco costanti per stato dei processi*/
-#define STATOPROC 00011000000000001111111100000100
+#define STATOPROC 0x1800FF04
 
 #define FRAMESIZE 4096
 
 #define TIME_SLICE 3000
 
-#define SYS3 3
 
-
-#endif MYCONST_H
+#endif

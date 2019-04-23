@@ -1,9 +1,12 @@
-#include "types_rikaya.h"
-#include "myConst.h"
-#include "types.h"
-#include "scheduler.h"
-#include "p1.5test_rikaya_v0.c"
-#include "init.h"
+#ifndef SYSCALL_H
+#define SYSCALL_H
 
-void syscall_handler();
-void terminateProcess(struct list_head* head_rd);
+#include "asl.h"
+#include "pcb.h"
+
+/* Definisco costanti per il riconoscimento del tipo di systemcall */
+#define SYS3 3
+
+void terminate_process(pcb_t* current_proc);
+
+#endif

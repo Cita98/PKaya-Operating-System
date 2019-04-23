@@ -1,15 +1,13 @@
 #ifndef _TYPES11_H
 #define _TYPES11_H
-#include "types.h"
+
+#include <umps/types.h>
 #include "listx.h"
-
-
 
 typedef unsigned int memaddr;
 
 // Process Control Block (PCB) data structure
-typedef struct pcb_t {	
-
+typedef struct pcb_t {
 	/*process queue fields */
 	struct list_head	p_next;
 
@@ -24,13 +22,12 @@ typedef struct pcb_t {
 	/* process priority */
 	int			priority;
 
-	/* process original prioriry*/
-	int 		original_priority;
-
 	/* key of the semaphore on which the process is eventually blocked */
 	int			*p_semkey;
-	/* setto il timeslice per ogni processo*/
-
+	
+	/* Priorità originale del processo */
+	int original_priority;
+	
 } pcb_t;
 
 

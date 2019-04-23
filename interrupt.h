@@ -1,5 +1,13 @@
-#include "scheduler.h"
-#include "libumps.h"
+#ifndef INTERRUPT_H
+#define INTERRUPT_H
 
-void getLine();
-void int_handler();
+#include <umps/libumps.h>
+
+/* Costanti per le linee di interrupt */
+
+#define INT_LOCALTIMER 2
+
+int getBit(int shift, unsigned int reg);
+int getINT_LINE();
+
+#endif

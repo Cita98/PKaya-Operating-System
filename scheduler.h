@@ -1,10 +1,15 @@
+#ifndef SCHEDULER_H
+#define SCHEDULER_H
+
 #include "listx.h"
-#include "myConst.h"
 #include "pcb.h"
+#include "utilis.h"
+#include <umps/libumps.h>
 
-void scheduler(struct list_head* head_rq);
-void context_switch(struct list_head* head_rq);
-void aging(struct list_head* head_rq);
+void scheduler();
+void context_switch();
+void aging();
 
+#endif
 
 
