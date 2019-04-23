@@ -107,3 +107,28 @@ Inizializza la lista dei semdFree in modo da contenere tutti gli elementi della 
 
 ------------------------- DOCUMENTAZIONE PHASE1.5 -------------------------
 
+File e scelte progettuali:
+
+--> handler.c e handler.h: Che contengono le funzioni per la gestione delle eccezioni generate da interrupt e systemcall.
+	Per ora possono essere gestiti solo interrupt generati dal local timer e systemcall di tipo 3 ovvero per la terminazione del processo e di tutta la sua progenie.
+
+--> interrupt.c/interrupt.h e systcall.c/syscall.h: Contengono rispettivamente le funzioni e le costanti relative agli interrupt e alle systemcall, per ora soltanto la funzione per il riconoscimento della linea di interrupt e la funzione per la terminazione del processo (SYS3).
+	Tali funzioni vengono poi richiamate nell'handler per la gestione della relativa eccezione, verranno poi ampliati nella fase successiva.
+	PER QUANTO RIGUARDA LA FUNZIONE terminate_process, contenuta in syscall.c, abbiamo scelto di implementarla semplicemente richiamando la funzione outChildBlocked (implementata nel file asl.c) poichè, anche se creata per scopi differenti, fa esattamente ciò che la funzione terminate_process è
+	tenuta a fare, ovvero eliminare il processo corrente (che viene passato come parametro) e tutta la sua progenie. Abbiamo fatto questa scelta poichè ci sembrava inutile creare un'altra funzione praticamente identica, pur non utilizzando i file asl (i semafori) per nessun altro scopo in questa fase. 
+	Decideremo in seguito, se avremo altre necessità, se cambiarla o meno per la prossima fase e quindi creare un'altra un funzione separata ma per ora fa esattamente il suo compito ovvero terminare il processo.
+
+NOTA: Abbiamo scelto di dividere in due file separati (interrupt.h e syscall.h) le costanti relative agli interrupt e alle systemcall piuttosto che mettere il tutto all'interno di myConst, per una questione di comodità e per tenere le cose separate secondo una certa logica. 
+	  Avremmo potuto mettere anche l'handler all'interno di tali file ma abbiamo preferito creare un handler.c separato per gestire tali eccezioni, sempre per una questione di ordine.
+	  
+--> scheduler.c/scheduler.h: Contengono le funzioni relative alla schedulazione dei processi, ovvero al caricamento dei processi (presi dalla lista dei processi pronti) all'interno del processore. I processi vengono scelti in base alla loro priorità e questi file contengono anche la funzione di aging per modificare la priorità dei processi che non vengono scelti nel momento in cui viene selezionato il processo con priorità maggiore.
+    Questo per evitare starvation. 
+	
+--> utilis.c/utilis.h: Contengono tutte le funzioni utili alle altre parti del kernel. Tra cui la funzione per l'inizializzazione delle NewArea e dei processi (test1, test2, test3), e la funzione per la copia di uno stato sorgente in un determinato stato di destinazione.
+	In questo file è contenuta anche la dichiarazione della ready_queue, in modo tale da poterla richiamare come variabile di tipo extern solo nei file in cui effettivamente la si necessita. 
+--> main.c : Richiama la funzione per l'inizializzazione e lo scheduler per far partire il sistema.
+
+IMPORTANTE: Ogni file .h contiene le dichiarazioni delle funzioni implementate nel relativo file .c, affianco vi è una breve spiegazione di ciò che la funzione è tenuta a fare. Nei file .c invece le funzioni sono commentate passo per passo.
+	  		Abbiamo fatto questa scelta in modo tale da facilitare la comprensione immediata delle funzioni senza dover per ogniuna di esse controllare la documentazione.
+  
+
